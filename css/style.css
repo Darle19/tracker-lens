@@ -1,0 +1,304 @@
+/* Tracker Lens - popup stylesheet
+   Layout: fixed 800×600, top action bar + full-bleed canvas underneath.
+   Palette: dark teal/charcoal with sky-blue + amber accents.
+*/
+
+@font-face {
+	font-family: "Open Sans";
+	src: url("../fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+	font-family: "Open Sans";
+	src: url("../fonts/OpenSans-Bold.ttf");
+	font-weight: 700;
+}
+
+:root {
+	--bg-deep:        #0b0f14;
+	--bg-panel:       #131a22;
+	--bg-elevated:    #1c2530;
+	--border:         #25313f;
+	--text-primary:   #e6edf5;
+	--text-muted:     #8d9aa9;
+	--accent:         #7dd3fc;
+	--accent-hover:   #38bdf8;
+	--warn:           #f87171;
+	--ghost:          #4b5563;
+	--first-party:    #7dd3fc;
+	--third-party:    #fbbf24;
+	--sync:           #f472b6;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+	width: 800px;
+	height: 600px;
+	margin: 0;
+	overflow: hidden;
+	background: var(--bg-deep);
+	color: var(--text-primary);
+	font-family: "Open Sans", system-ui, sans-serif;
+	font-size: 13px;
+}
+
+body {
+	display: grid;
+	grid-template-rows: 64px 1fr;
+}
+
+/* --------- top bar --------- */
+
+.top-bar {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	column-gap: 16px;
+	align-items: center;
+	padding: 0 16px;
+	background: linear-gradient(180deg, var(--bg-panel), #0e141b);
+	border-bottom: 1px solid var(--border);
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.logo-mark {
+	width: 32px;
+	height: 32px;
+	border-radius: 6px;
+	background: var(--bg-elevated);
+	padding: 4px;
+}
+
+.brand-text { line-height: 1.1; }
+
+.brand-title {
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	font-size: 15px;
+	color: var(--text-primary);
+}
+.brand-sub {
+	font-size: 11px;
+	color: var(--text-muted);
+	margin-top: 2px;
+}
+
+.actions {
+	display: flex;
+	gap: 6px;
+}
+
+.btn {
+	all: unset;
+	cursor: pointer;
+	padding: 7px 12px;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-primary);
+	background: var(--bg-elevated);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	transition: background 120ms, border-color 120ms, transform 60ms;
+}
+.btn:hover  { background: #233040; border-color: #36475a; }
+.btn:active { transform: translateY(1px); }
+
+.btn-accent {
+	background: var(--accent);
+	color: #06121b;
+	border-color: var(--accent);
+}
+.btn-accent:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+.btn-warn {
+	color: var(--warn);
+	border-color: rgba(248, 113, 113, 0.3);
+}
+.btn-warn:hover { background: rgba(248, 113, 113, 0.1); }
+
+.btn-ghost { background: transparent; }
+
+/* --------- auto-share toggle --------- */
+
+.auto-collect {
+	display: flex;
+	align-items: center;
+}
+
+.switch {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	cursor: pointer;
+	user-select: none;
+	font-size: 11px;
+	color: var(--text-muted);
+}
+
+.switch input { display: none; }
+
+.slider {
+	position: relative;
+	width: 32px;
+	height: 18px;
+	background: var(--bg-elevated);
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	transition: background 120ms;
+}
+.slider::after {
+	content: "";
+	position: absolute;
+	top: 1px; left: 1px;
+	width: 14px; height: 14px;
+	background: var(--text-muted);
+	border-radius: 999px;
+	transition: transform 160ms, background 160ms;
+}
+.switch input:checked + .slider {
+	background: rgba(125, 211, 252, 0.2);
+	border-color: var(--accent);
+}
+.switch input:checked + .slider::after {
+	transform: translateX(14px);
+	background: var(--accent);
+}
+
+/* --------- canvas area --------- */
+
+.canvas-wrap {
+	position: relative;
+	background: #0f1418;
+	overflow: hidden;
+}
+
+.canvas-host {
+	position: absolute;
+	inset: 0;
+}
+
+.legend {
+	position: absolute;
+	left: 16px;
+	bottom: 16px;
+	z-index: 2;
+	display: flex;
+	gap: 14px;
+	padding: 8px 12px;
+	background: rgba(15, 20, 24, 0.7);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	backdrop-filter: blur(6px);
+	font-size: 11px;
+	color: var(--text-muted);
+}
+
+.legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.dot {
+	display: inline-block;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+}
+.dot-first  { background: var(--first-party); }
+.dot-third  { background: var(--third-party); border-radius: 0; transform: rotate(45deg); }
+.dot-sync   { background: var(--sync); height: 2px; width: 14px; border-radius: 0; }
+
+.tooltip {
+	position: fixed;
+	display: none;
+	z-index: 5;
+	padding: 6px 10px;
+	background: rgba(20, 28, 38, 0.96);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	color: var(--text-primary);
+	font-size: 12px;
+	pointer-events: none;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+	max-width: 320px;
+	word-break: break-all;
+}
+
+/* --------- modal --------- */
+
+.modal {
+	position: absolute;
+	inset: 0;
+	z-index: 10;
+	background: rgba(0, 0, 0, 0.55);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal-card {
+	width: 460px;
+	background: var(--bg-panel);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+.modal-header {
+	padding: 14px 18px;
+	font-weight: 700;
+	font-size: 14px;
+	letter-spacing: 0.4px;
+	background: var(--bg-elevated);
+	border-bottom: 1px solid var(--border);
+}
+
+.modal-content {
+	padding: 16px 18px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--text-primary);
+}
+.modal-content p { margin: 0 0 10px 0; }
+.modal-content p:last-child { margin-bottom: 0; }
+
+.modal-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+	padding: 12px 18px;
+	background: var(--bg-elevated);
+	border-top: 1px solid var(--border);
+}
+
+.modal-confirm,
+.modal-cancel {
+	all: unset;
+	cursor: pointer;
+	padding: 8px 14px;
+	font: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: 6px;
+	transition: background 120ms;
+}
+
+.modal-confirm {
+	background: var(--accent);
+	color: #06121b;
+}
+.modal-confirm:hover { background: var(--accent-hover); }
+
+.modal-cancel {
+	background: transparent;
+	color: var(--text-muted);
+	border: 1px solid var(--border);
+}
+.modal-cancel:hover { background: var(--bg-elevated); color: var(--text-primary); }

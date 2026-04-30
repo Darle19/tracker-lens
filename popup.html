@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Tracker Lens</title>
+	<meta name="description" content="Tracker Lens - visualise the third parties loaded on the sites you visit.">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="assets/lightbeam-48.png" type="image/x-icon">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+
+	<header class="top-bar">
+		<div class="brand">
+			<img class="logo-mark" src="assets/lightbeam-48.png" alt="">
+			<div class="brand-text">
+				<div class="brand-title">Tracker Lens</div>
+				<div class="brand-sub">Third-party request map</div>
+			</div>
+		</div>
+
+		<nav class="actions">
+			<button id="save-data-button"  class="btn"           title="Save your local data as JSON">Export</button>
+			<button id="hash-button"       class="btn"           title="Tally category counts">Categories</button>
+			<button id="reset-data-button" class="btn btn-warn"  title="Wipe local data">Reset</button>
+			<button id="mailsome-button"   class="btn btn-ghost" title="Send feedback">Feedback</button>
+		</nav>
+	</header>
+
+	<main class="canvas-wrap">
+		<div class="legend">
+			<span class="legend-item"><span class="dot dot-first"></span> First party</span>
+			<span class="legend-item"><span class="dot dot-third"></span> Third party</span>
+			<span class="legend-item"><span class="dot dot-sync"></span> Cookie sync</span>
+		</div>
+
+		<div id="visualization" class="canvas-host"></div>
+		<div id="tooltip" class="tooltip"></div>
+	</main>
+
+	<script src="vendor/d3.min.js"></script>
+	<script src="src/bridge.js"></script>
+	<script src="src/graph.js"></script>
+	<script src="src/panel.js"></script>
+</body>
+</html>
